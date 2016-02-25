@@ -2,11 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:task="http://www.springframework.org/schema/task" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/task
 		http://www.springframework.org/schema/task/spring-task-3.0.xsd  
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/jms
+		http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		http://www.springframework.org/schema/context
@@ -30,5 +33,9 @@
 
 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory" ref="connectionFactory"></property>
+		<property name="defaultDestinationName" value="${activemq.queue.name}"></property>
 	</bean>
+	<jms:listener-container>
+		<jms:listener destination="${activemq.queue.name}" ref="crawlerReceiveService" method="process"/>
+	</jms:listener-container>
 </beans>

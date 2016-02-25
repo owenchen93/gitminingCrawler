@@ -18,7 +18,7 @@ public class CrawlerRequestService {
 	}
 	
 	public void sendRequest(final String message){
-		jmsTemplate.send("Qname", new MessageCreator() {
+		jmsTemplate.send(new MessageCreator() {
 			public Message createMessage(Session session) throws JMSException {
 				// TODO Auto-generated method stub
 				return session.createObjectMessage(message);
